@@ -739,6 +739,7 @@ func (s *Server) getExec(request *restful.Request, response *restful.Response) {
 func (s *Server) getRun(request *restful.Request, response *restful.Response) {
 	klog.Infof("0000000000000000000000000000000000000000000000000-----%s-----00000000000000000000000000000000000000000000",request.Request.URL.Query())
 	params := getExecRequestParams(request)
+	klog.Infof("3333333333333333333333333333333333333-----%s-----333333333333333333333333333333333333333333",params.cmd)
 	pod, ok := s.host.GetPodByName(params.podNamespace, params.podName)
 	if !ok {
 		response.WriteError(http.StatusNotFound, fmt.Errorf("pod does not exist"))

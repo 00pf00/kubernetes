@@ -737,6 +737,7 @@ func (s *Server) getExec(request *restful.Request, response *restful.Response) {
 
 // getRun handles requests to run a command inside a container.
 func (s *Server) getRun(request *restful.Request, response *restful.Response) {
+	klog.Infof("0000000000000000000000000000000000000000000000000-----%s-----00000000000000000000000000000000000000000000",request.Request.URL.Query())
 	params := getExecRequestParams(request)
 	pod, ok := s.host.GetPodByName(params.podNamespace, params.podName)
 	if !ok {

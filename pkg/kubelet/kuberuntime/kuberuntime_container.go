@@ -808,7 +808,6 @@ func (m *kubeGenericRuntimeManager) RunInContainer(id kubecontainer.ContainerID,
 	// NOTE(tallclair): This does not correctly interleave stdout & stderr, but should be sufficient
 	// for logging purposes. A combined output option will need to be added to the ExecSyncRequest
 	// if more precise output ordering is ever required.
-	klog.Infof("222222222222222222222222222222222222222222---%err = v----22222222222222222222222222222222222222",err)
 	return append(stdout, stderr...), err
 }
 

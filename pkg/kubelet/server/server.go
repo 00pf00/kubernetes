@@ -737,9 +737,7 @@ func (s *Server) getExec(request *restful.Request, response *restful.Response) {
 
 // getRun handles requests to run a command inside a container.
 func (s *Server) getRun(request *restful.Request, response *restful.Response) {
-	klog.Infof("0000000000000000000000000000000000000000000000000-----%s-----00000000000000000000000000000000000000000000",request.Request.URL.Query())
 	params := getExecRequestParams(request)
-	klog.Infof("3333333333333333333333333333333333333-----%s-----333333333333333333333333333333333333333333",params.cmd)
 	pod, ok := s.host.GetPodByName(params.podNamespace, params.podName)
 	if !ok {
 		response.WriteError(http.StatusNotFound, fmt.Errorf("pod does not exist"))
@@ -748,7 +746,6 @@ func (s *Server) getRun(request *restful.Request, response *restful.Response) {
 
 	// For legacy reasons, run uses different query param than exec.
 	params.cmd = strings.Split(request.QueryParameter("cmd"), " ")
-	klog.Infof("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$%s@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",params.cmd)
 	data, err := s.host.RunInContainer(kubecontainer.GetPodFullName(pod), params.podUID, params.containerName, params.cmd)
 	if err != nil {
 		response.WriteError(http.StatusInternalServerError, err)

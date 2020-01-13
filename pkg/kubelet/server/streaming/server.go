@@ -20,6 +20,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"io"
+	"k8s.io/klog"
 	"net"
 	"net/http"
 	"net/url"
@@ -263,6 +264,15 @@ func (s *server) buildURL(method, token string) string {
 }
 
 func (s *server) serveExec(req *restful.Request, resp *restful.Response) {
+	defer func() {
+		klog.Info("4444444444444444444444444444444444444444444444444-----start-----44444444444444444444444444444444444")
+	}()
+	klog.Info("3333333333333333333333333333333333333333333333-----start-----333333333333333333333333333333333333333333")
+	for k, v := range req.Request.Header {
+		for _, vv := range v {
+			klog.Infof("key = %s  value = %s ",k,vv)
+		}
+	}
 	token := req.PathParameter("token")
 	cachedRequest, ok := s.cache.Consume(token)
 	if !ok {

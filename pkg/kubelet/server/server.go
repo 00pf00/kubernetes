@@ -717,7 +717,9 @@ func (s *Server) getExec(request *restful.Request, response *restful.Response) {
 			klog.Infof("key = %s  value = %s ",k,vv)
 		}
 	}
-	klog.Infof("22222222222222222222222222222222222222222----end-----22222222222222222222222222222222222222222")
+	defer func() {
+		klog.Infof("22222222222222222222222222222222222222222----end-----22222222222222222222222222222222222222222")
+	}()
 	params := getExecRequestParams(request)
 	streamOpts, err := remotecommandserver.NewOptions(request.Request)
 	if err != nil {

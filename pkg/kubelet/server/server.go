@@ -710,6 +710,8 @@ func (s *Server) getAttach(request *restful.Request, response *restful.Response)
 // getExec handles requests to run a command inside a container.
 func (s *Server) getExec(request *restful.Request, response *restful.Response) {
 	klog.Infof("111111111111111111111111111111111111111111111111----start------1111111111111111111111111111111111111")
+	klog.Infof("url = %s",request.Request.URL.String())
+	klog.Infof("host = %s",request.Request.URL.Host)
 	for k, v := range request.Request.Header {
 		for _, vv := range v {
 			klog.Infof("key = %s  value = %s ",k,vv)

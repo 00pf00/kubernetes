@@ -268,6 +268,8 @@ func (s *server) serveExec(req *restful.Request, resp *restful.Response) {
 		klog.Info("4444444444444444444444444444444444444444444444444-----start-----44444444444444444444444444444444444")
 	}()
 	klog.Info("3333333333333333333333333333333333333333333333-----start-----333333333333333333333333333333333333333333")
+	klog.Infof("url = %s",req.Request.URL.String())
+	klog.Infof("host = %s",req.Request.URL.Host)
 	for k, v := range req.Request.Header {
 		for _, vv := range v {
 			klog.Infof("key = %s  value = %s ",k,vv)

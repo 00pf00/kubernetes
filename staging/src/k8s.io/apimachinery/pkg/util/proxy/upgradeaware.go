@@ -249,7 +249,7 @@ func (noSuppressPanicError) Write(p []byte) (n int, err error) {
 
 // tryUpgrade returns true if the request was handled.
 func (h *UpgradeAwareHandler) tryUpgrade(w http.ResponseWriter, req *http.Request) bool {
-	klog.Error("111111111111111111111-tryUpgrade-11111111111111111111")
+	klog.V(8).Infof("111111111111111111111-tryUpgrade-11111111111111111111")
 	if !httpstream.IsUpgradeRequest(req) {
 		klog.V(6).Infof("Request was not an upgrade")
 		return false

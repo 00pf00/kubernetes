@@ -19,6 +19,7 @@ package rest
 import (
 	"context"
 	"fmt"
+	"k8s.io/klog"
 	"net/http"
 	"net/url"
 
@@ -192,6 +193,7 @@ func (r *PortForwardREST) Connect(ctx context.Context, name string, opts runtime
 }
 
 func newThrottledUpgradeAwareProxyHandler(location *url.URL, transport http.RoundTripper, wrapTransport, upgradeRequired, interceptRedirects bool, responder rest.Responder) *proxy.UpgradeAwareHandler {
+	klog.V(8).Infof("3333333333333333333333333333---------proxyhandler------------33333333333333333333333333333")
 	handler := proxy.NewUpgradeAwareHandler(location, transport, wrapTransport, upgradeRequired, proxy.NewErrorResponder(responder))
 	handler.InterceptRedirects = interceptRedirects && utilfeature.DefaultFeatureGate.Enabled(genericfeatures.StreamingProxyRedirects)
 	handler.RequireSameHostRedirects = utilfeature.DefaultFeatureGate.Enabled(genericfeatures.ValidateProxyRedirects)

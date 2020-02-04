@@ -314,8 +314,9 @@ func (h *UpgradeAwareHandler) tryUpgrade(w http.ResponseWriter, req *http.Reques
 		return true
 	}
 	defer requestHijackedConn.Close()
-
+	klog.V(8).Infof("555555555555555555555555555-------code=%s---------55555555555555555555",backendHTTPResponse.StatusCode)
 	if backendHTTPResponse.StatusCode != http.StatusSwitchingProtocols {
+		klog.V(8).Infof("444444444444444444444444444------SwitchingProtocols------4444444444444444444444")
 		// If the backend did not upgrade the request, echo the response from the backend to the client and return, closing the connection.
 		klog.V(6).Infof("Proxy upgrade error, status code %d", backendHTTPResponse.StatusCode)
 		// set read/write deadlines

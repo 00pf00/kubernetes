@@ -314,7 +314,7 @@ func (h *UpgradeAwareHandler) tryUpgrade(w http.ResponseWriter, req *http.Reques
 		return true
 	}
 	defer requestHijackedConn.Close()
-	klog.V(8).Infof("555555555555555555555555555-------code=%s---------55555555555555555555",backendHTTPResponse.StatusCode)
+	klog.V(8).Infof("555555555555555555555555555-------code=%s---------55555555555555555555",backendHTTPResponse.StatusCode )
 	if backendHTTPResponse.StatusCode != http.StatusSwitchingProtocols {
 		klog.V(8).Infof("444444444444444444444444444------SwitchingProtocols------4444444444444444444444")
 		// If the backend did not upgrade the request, echo the response from the backend to the client and return, closing the connection.
@@ -416,6 +416,7 @@ func getResponse(r io.Reader) (*http.Response, []byte, error) {
 
 // dial dials the backend at req.URL and writes req to it.
 func dial(req *http.Request, transport http.RoundTripper) (net.Conn, error) {
+	klog.V(8).Infof("77777777777777777777777777777------url=%s--------7777777777777777777777777777",req.URL.String())
 	conn, err := DialURL(req.Context(), req.URL, transport)
 	if err != nil {
 		return nil, fmt.Errorf("error dialing backend: %v", err)

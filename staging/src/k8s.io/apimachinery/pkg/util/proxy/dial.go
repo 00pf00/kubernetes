@@ -33,6 +33,8 @@ import (
 func DialURL(ctx context.Context, url *url.URL, transport http.RoundTripper) (net.Conn, error) {
 	dialAddr := netutil.CanonicalAddr(url)
 
+	klog.V(8).Infof("8888888888888888888888888888888888---------dailAddr=%s-----------8888888888888888888888888888888 ",dialAddr)
+
 	dialer, err := utilnet.DialerFor(transport)
 	if err != nil {
 		klog.V(5).Infof("Unable to unwrap transport %T to get dialer: %v", transport, err)

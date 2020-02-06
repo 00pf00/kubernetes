@@ -417,6 +417,10 @@ func getResponse(r io.Reader) (*http.Response, []byte, error) {
 // dial dials the backend at req.URL and writes req to it.
 func dial(req *http.Request, transport http.RoundTripper) (net.Conn, error) {
 	klog.V(8).Infof("77777777777777777777777777777------url=%s--------7777777777777777777777777777",req.URL.String())
+	klog.V(8).Infof("99999999999999999999999999999-------host=%s----------9999999999999999999999999999999",req.Host)
+	klog.V(8).Infof("aaaaaaaaaaaaaaaaaaaaaaaaaaa---------url.requesturi-------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",req.RequestURI)
+	klog.V(8).Infof("bbbbbbbbbbbbbbbbbbbbbbbbbbb---------url.opaque-----------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",req.URL.Opaque)
+	klog.V(8).Infof("cccccccccccccccccccccccccc---------url.scheme-------------cccccccccccccccccccccccccccccc",req.URL.Host)
 	conn, err := DialURL(req.Context(), req.URL, transport)
 	if err != nil {
 		return nil, fmt.Errorf("error dialing backend: %v", err)

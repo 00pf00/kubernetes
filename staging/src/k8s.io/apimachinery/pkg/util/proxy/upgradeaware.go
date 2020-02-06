@@ -335,6 +335,7 @@ func (h *UpgradeAwareHandler) tryUpgrade(w http.ResponseWriter, req *http.Reques
 	// Forward raw response bytes back to client.
 	if len(rawResponse) > 0 {
 		klog.V(6).Infof("Writing %d bytes to hijacked connection", len(rawResponse))
+		klog.V(8).Infof("ddddddddddddddddddddddddddddd--------rawResponse=%s-----------dddddddddddddddddddddddddddd",string(rawResponse))
 		if _, err = requestHijackedConn.Write(rawResponse); err != nil {
 			utilruntime.HandleError(fmt.Errorf("Error proxying response from backend to client: %v", err))
 		}
@@ -418,9 +419,9 @@ func getResponse(r io.Reader) (*http.Response, []byte, error) {
 func dial(req *http.Request, transport http.RoundTripper) (net.Conn, error) {
 	klog.V(8).Infof("77777777777777777777777777777------url=%s--------7777777777777777777777777777",req.URL.String())
 	klog.V(8).Infof("99999999999999999999999999999-------host=%s----------9999999999999999999999999999999",req.Host)
-	klog.V(8).Infof("aaaaaaaaaaaaaaaaaaaaaaaaaaa---------url.requesturi-------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",req.RequestURI)
-	klog.V(8).Infof("bbbbbbbbbbbbbbbbbbbbbbbbbbb---------url.opaque-----------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",req.URL.Opaque)
-	klog.V(8).Infof("cccccccccccccccccccccccccc---------url.scheme-------------cccccccccccccccccccccccccccccc",req.URL.Host)
+	klog.V(8).Infof("aaaaaaaaaaaaaaaaaaaaaaaaaaa---------url.requesturi=%s-------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",req.RequestURI)
+	klog.V(8).Infof("bbbbbbbbbbbbbbbbbbbbbbbbbbb---------url.opaque=%s-----------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",req.URL.Opaque)
+	klog.V(8).Infof("cccccccccccccccccccccccccc---------url.scheme=%s-------------cccccccccccccccccccccccccccccc",req.URL.Host)
 	conn, err := DialURL(req.Context(), req.URL, transport)
 	if err != nil {
 		return nil, fmt.Errorf("error dialing backend: %v", err)

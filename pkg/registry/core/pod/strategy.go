@@ -19,7 +19,6 @@ package pod
 import (
 	"context"
 	"fmt"
-	"k8s.io/klog"
 	"net"
 	"net/http"
 	"net/url"
@@ -470,7 +469,6 @@ func ExecLocation(
 	name string,
 	opts *api.PodExecOptions,
 ) (*url.URL, http.RoundTripper, error) {
-	klog.V(8).Infof("222222222222222222222222222------exec--------2222222222222222222222222")
 	return streamLocation(getter, connInfo, ctx, name, opts, opts.Container, "exec")
 }
 

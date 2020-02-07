@@ -121,9 +121,11 @@ type director struct {
 
 func (d director) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	path := req.URL.Path
+	klog.V(8).Infof("1111111111111111111111111111--------path=%s--------1111111111111111111111111111111111111111111111",path)
 
 	// check to see if our webservices want to claim this path
 	for _, ws := range d.goRestfulContainer.RegisteredWebServices() {
+		klog.V(8).Infof("222222222222222222222222222222-------rootpath=%s---------22222222222222222222222222222222222222",ws.RootPath())
 		switch {
 		case ws.RootPath() == "/apis":
 			// if we are exactly /apis or /apis/, then we need special handling in loop.

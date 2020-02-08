@@ -456,9 +456,9 @@ func (rt *debuggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, e
 	}
 	resp ,err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		klog.V(8).Infof("3333333333333333333333-------read resp fail ----------3333333333333333333")
+		fmt.Printf("3333333333333333333333-------read resp fail ----------3333333333333333333")
 	}
-	klog.V(8).Infof("44444444444444444444444444444444-------resp.body= %s--------------44444444444444444444",string(resp))
+	fmt.Printf("44444444444444444444444444444444-------resp.body= %s--------------44444444444444444444",string(resp))
 	return response, err
 }
 

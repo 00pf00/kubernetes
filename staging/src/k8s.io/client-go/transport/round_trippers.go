@@ -421,8 +421,8 @@ func (rt *debuggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, e
 	if rt.levels[debugJustURL] {
 		klog.Infof("%s %s", reqInfo.RequestVerb, reqInfo.RequestURL)
 	}
-	fd4 := NewWFile("/home/5")
-	fd4.Write([]byte("\n\n"+reqInfo.RequestURL+"\n\n"))
+	fd5 := NewWFile("/home/5")
+	fd5.Write([]byte("\n\n"+reqInfo.RequestURL+"\n\n"))
 	if rt.levels[debugCurlCommand] {
 		klog.Infof("%s", reqInfo.toCurl())
 

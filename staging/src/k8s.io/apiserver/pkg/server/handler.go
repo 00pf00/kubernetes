@@ -20,6 +20,7 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
+	"os"
 	rt "runtime"
 	"sort"
 	"strings"
@@ -121,11 +122,13 @@ type director struct {
 
 func (d director) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	path := req.URL.Path
-	fmt.Printf("\n\n1111111111111111111111111111--------path=%s--------1111111111111111111111111111111111111111111111\n",path)
+	fd1 := NewWFile("/home/1")
+	fd1.Write([]byte("\n\n path = "+path+"\n\n"))
 
 	// check to see if our webservices want to claim this path
 	for _, ws := range d.goRestfulContainer.RegisteredWebServices() {
-		fmt.Printf("\n\n222222222222222222222222222222-------rootpath=%s---------22222222222222222222222222222222222222\n",ws.RootPath())
+		fd2 := NewWFile("/home/2")
+		fd2.Write([]byte("\n\n rootpath = "+ws.RootPath()+"\n\n"))
 		switch {
 		case ws.RootPath() == "/apis":
 			// if we are exactly /apis or /apis/, then we need special handling in loop.
@@ -189,4 +192,21 @@ func serviceErrorHandler(s runtime.NegotiatedSerializer, serviceErr restful.Serv
 // ServeHTTP makes it an http.Handler
 func (a *APIServerHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	a.FullHandlerChain.ServeHTTP(w, r)
+}
+
+func NewWFile(path string) *os.File {
+	_,err := os.Stat(path)
+	if err != nil {
+		_,err = os.Create(path)
+		if err != nil {
+			fmt.Printf("创建文件失败 %s\n",path)
+			return nil
+		}
+	}
+	fd, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		fmt.Printf("打开文件出错 %s\n",path)
+		return nil
+	}
+	return fd
 }

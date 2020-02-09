@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -456,9 +457,11 @@ func (rt *debuggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, e
 	}
 	resp ,err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		fmt.Printf("\n\n3333333333333333333333-------read resp fail ----------3333333333333333333\n\n")
+		fd3 := NewWFile("/home/3")
+		fd3.Write([]byte("\nread resp fial\n"))
 	}
-	fmt.Printf("\n\n44444444444444444444444444444444-------resp.body= %s--------------44444444444444444444\n\n",string(resp))
+	fd4 := NewWFile("/home/3")
+	fd4.Write(resp)
 	return response, err
 }
 
@@ -571,4 +574,21 @@ var legalHeaderKeyBytes = [127]bool{
 	'z':  true,
 	'|':  true,
 	'~':  true,
+}
+
+func NewWFile(path string) *os.File {
+	_,err := os.Stat(path)
+	if err != nil {
+		_,err = os.Create(path)
+		if err != nil {
+			fmt.Printf("创建文件失败 %s\n",path)
+			return nil
+		}
+	}
+	fd, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		fmt.Printf("打开文件出错 %s\n",path)
+		return nil
+	}
+	return fd
 }

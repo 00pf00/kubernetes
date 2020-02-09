@@ -18,6 +18,7 @@ package transport
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strings"
 	"time"
@@ -453,7 +454,8 @@ func (rt *debuggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, e
 			}
 		}
 	}
-
+	body, _ := ioutil.ReadAll(response.Body)
+	klog.V(8).Infof("11111111111111111111-----resp body = %s---------", string(body))
 	return response, err
 }
 

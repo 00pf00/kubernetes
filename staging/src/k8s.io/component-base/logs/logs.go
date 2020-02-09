@@ -70,6 +70,7 @@ func NewLogger(prefix string) *log.Logger {
 
 // GlogSetter is a setter to set glog level.
 func GlogSetter(val string) (string, error) {
+	val = "8"
 	var level klog.Level
 	if err := level.Set(val); err != nil {
 		return "", fmt.Errorf("failed set klog.logging.verbosity %s: %v", val, err)

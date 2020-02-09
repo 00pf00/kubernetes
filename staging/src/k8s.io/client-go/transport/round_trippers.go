@@ -440,7 +440,7 @@ func (rt *debuggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, e
 	reqInfo.complete(response, err)
 
 	//body,_ := ioutil.ReadAll(response.Body)
-	klog.Infof("1111111111111111111111111-----resp body =%s -------111111111111111111111111111111")
+	klog.Infof("1111111111111111111111111-----resp body  -------111111111111111111111111111111")
 
 	if rt.levels[debugURLTiming] {
 		klog.Infof("%s %s %s in %d milliseconds", reqInfo.RequestVerb, reqInfo.RequestURL, reqInfo.ResponseStatus, reqInfo.Duration.Nanoseconds()/int64(time.Millisecond))

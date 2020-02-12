@@ -331,6 +331,7 @@ func (c *Config) Complete() CompletedConfig {
 // Certain config fields must be specified, including:
 //   KubeletClientConfig
 func (c completedConfig) New(delegationTarget genericapiserver.DelegationTarget) (*Master, error) {
+	klog.V(8).Infof("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-------start-------------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 	if reflect.DeepEqual(c.ExtraConfig.KubeletClientConfig, kubeletclient.KubeletClientConfig{}) {
 		return nil, fmt.Errorf("Master.New() called with empty config.KubeletClientConfig")
 	}
@@ -444,12 +445,13 @@ func (c completedConfig) New(delegationTarget genericapiserver.DelegationTarget)
 		go controller.Run(1, hookContext.StopCh)
 		return nil
 	})
-
+	klog.V(8).Infof("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-------end-------------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 	return m, nil
 }
 
 // InstallLegacyAPI will install the legacy APIs for the restStorageProviders if they are enabled.
 func (m *Master) InstallLegacyAPI(c *completedConfig, restOptionsGetter generic.RESTOptionsGetter, legacyRESTStorageProvider corerest.LegacyRESTStorageProvider) error {
+	klog.V(8).Infof("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa--------------start-------------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 	legacyRESTStorage, apiGroupInfo, err := legacyRESTStorageProvider.NewLegacyRESTStorage(restOptionsGetter)
 	if err != nil {
 		return fmt.Errorf("Error building core storage: %v", err)
@@ -464,6 +466,7 @@ func (m *Master) InstallLegacyAPI(c *completedConfig, restOptionsGetter generic.
 	if err := m.GenericAPIServer.InstallLegacyAPIGroup(genericapiserver.DefaultLegacyAPIPrefix, &apiGroupInfo); err != nil {
 		return fmt.Errorf("Error in registering group versions: %v", err)
 	}
+	klog.V(8).Infof("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa--------------end-------------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 	return nil
 }
 

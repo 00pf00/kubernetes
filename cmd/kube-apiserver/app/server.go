@@ -146,6 +146,7 @@ cluster's shared state through which all other components interact.`,
 
 // Run runs the specified APIServer.  This should never exit.
 func Run(completeOptions completedServerRunOptions, stopCh <-chan struct{}) error {
+	klog.V(8).Infof("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee------------start------------eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
 	// To help debugging, immediately log version
 	klog.Infof("Version: %+v", version.Get())
 
@@ -158,12 +159,13 @@ func Run(completeOptions completedServerRunOptions, stopCh <-chan struct{}) erro
 	if err != nil {
 		return err
 	}
-
+	klog.V(8).Infof("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee------------end------------eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
 	return prepared.Run(stopCh)
 }
 
 // CreateServerChain creates the apiservers connected via delegation.
 func CreateServerChain(completedOptions completedServerRunOptions, stopCh <-chan struct{}) (*aggregatorapiserver.APIAggregator, error) {
+	klog.V(8).Infof("dddddddddddddddddddddddddddd---------start----------dddddddddddddddddddddddddddddddddddd")
 	nodeTunneler, proxyTransport, err := CreateNodeDialer(completedOptions)
 	if err != nil {
 		return nil, err
@@ -207,17 +209,18 @@ func CreateServerChain(completedOptions completedServerRunOptions, stopCh <-chan
 			return nil, err
 		}
 	}
-
+	klog.V(8).Infof("dddddddddddddddddddddddddddd---------end----------dddddddddddddddddddddddddddddddddddd")
 	return aggregatorServer, nil
 }
 
 // CreateKubeAPIServer creates and wires a workable kube-apiserver
 func CreateKubeAPIServer(kubeAPIServerConfig *master.Config, delegateAPIServer genericapiserver.DelegationTarget) (*master.Master, error) {
+	klog.V(8).Infof("cccccccccccccccccccccccccccccc---------------start------------------ccccccccccccccccccccccccccccccccccccc")
 	kubeAPIServer, err := kubeAPIServerConfig.Complete().New(delegateAPIServer)
 	if err != nil {
 		return nil, err
 	}
-
+	klog.V(8).Infof("cccccccccccccccccccccccccccccc---------------end------------------ccccccccccccccccccccccccccccccccccccc")
 	return kubeAPIServer, nil
 }
 

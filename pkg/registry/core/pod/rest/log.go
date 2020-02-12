@@ -19,6 +19,7 @@ package rest
 import (
 	"context"
 	"fmt"
+	"k8s.io/klog"
 
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -65,6 +66,7 @@ func (r *LogREST) ProducesObject(verb string) interface{} {
 
 // Get retrieves a runtime.Object that will stream the contents of the pod log
 func (r *LogREST) Get(ctx context.Context, name string, opts runtime.Object) (runtime.Object, error) {
+	klog.V(8).Infof("33333333333333333333333333333-----------start----------------3333333333333333333333333333333333")
 	logOpts, ok := opts.(*api.PodLogOptions)
 	if !ok {
 		return nil, fmt.Errorf("invalid options object: %#v", opts)
@@ -80,6 +82,7 @@ func (r *LogREST) Get(ctx context.Context, name string, opts runtime.Object) (ru
 	if err != nil {
 		return nil, err
 	}
+	klog.V(8).Infof("33333333333333333333333333333-----------end----------------3333333333333333333333333333333333")
 	return &genericrest.LocationStreamer{
 		Location:        location,
 		Transport:       transport,

@@ -19,6 +19,7 @@ package pod
 import (
 	"context"
 	"fmt"
+	"k8s.io/klog"
 	"net"
 	"net/http"
 	"net/url"
@@ -319,6 +320,7 @@ func LogLocation(
 	name string,
 	opts *api.PodLogOptions,
 ) (*url.URL, http.RoundTripper, error) {
+	klog.V(8).Infof("22222222222222222222-----------start----------------2222222222222222222")
 	pod, err := getPod(getter, ctx, name)
 	if err != nil {
 		return nil, nil, err
@@ -388,6 +390,7 @@ func LogLocation(
 	if opts.InsecureSkipTLSVerifyBackend && utilfeature.DefaultFeatureGate.Enabled(features.AllowInsecureBackendProxy) {
 		return loc, nodeInfo.InsecureSkipTLSVerifyTransport, nil
 	}
+	klog.V(8).Infof("22222222222222222222-----------end----------------2222222222222222222")
 	return loc, nodeInfo.Transport, nil
 }
 

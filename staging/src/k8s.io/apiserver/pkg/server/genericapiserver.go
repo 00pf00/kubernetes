@@ -399,6 +399,7 @@ func (s preparedGenericAPIServer) NonBlockingRun(stopCh <-chan struct{}) error {
 
 // installAPIResources is a private method for installing the REST storage backing each api groupversionresource
 func (s *GenericAPIServer) installAPIResources(apiPrefix string, apiGroupInfo *APIGroupInfo, openAPIModels openapiproto.Models) error {
+	klog.V(8).Infof("888888888888888888888888888---------------start---------------888888888888888888888888888888")
 	for _, groupVersion := range apiGroupInfo.PrioritizedVersions {
 		if len(apiGroupInfo.VersionedResourcesStorageMap[groupVersion.Version]) == 0 {
 			klog.Warningf("Skipping API %v because it has no resources.", groupVersion)
@@ -416,11 +417,12 @@ func (s *GenericAPIServer) installAPIResources(apiPrefix string, apiGroupInfo *A
 			return fmt.Errorf("unable to setup API %v: %v", apiGroupInfo, err)
 		}
 	}
-
+	klog.V(8).Infof("888888888888888888888888888---------------end---------------888888888888888888888888888888")
 	return nil
 }
 
 func (s *GenericAPIServer) InstallLegacyAPIGroup(apiPrefix string, apiGroupInfo *APIGroupInfo) error {
+	klog.V(8).Infof("999999999999999999999999999999999999----------------start--------------999999999999999999999999999999999999999")
 	if !s.legacyAPIGroupPrefixes.Has(apiPrefix) {
 		return fmt.Errorf("%q is not in the allowed legacy API prefixes: %v", apiPrefix, s.legacyAPIGroupPrefixes.List())
 	}
@@ -437,7 +439,7 @@ func (s *GenericAPIServer) InstallLegacyAPIGroup(apiPrefix string, apiGroupInfo 
 	// Install the version handler.
 	// Add a handler at /<apiPrefix> to enumerate the supported api versions.
 	s.Handler.GoRestfulContainer.Add(discovery.NewLegacyRootAPIHandler(s.discoveryAddresses, s.Serializer, apiPrefix).WebService())
-
+	klog.V(8).Infof("999999999999999999999999999999999999----------------end--------------999999999999999999999999999999999999999")
 	return nil
 }
 

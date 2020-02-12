@@ -18,6 +18,7 @@ package endpoints
 
 import (
 	"fmt"
+	"k8s.io/klog"
 	"net/http"
 	gpath "path"
 	"reflect"
@@ -91,6 +92,7 @@ var toDiscoveryKubeVerb = map[string]string{
 
 // Install handlers for API resources.
 func (a *APIInstaller) Install() ([]metav1.APIResource, *restful.WebService, []error) {
+	klog.V(8).Infof("66666666666666666666666666666666---------start-----------66666666666666666666666666666")
 	var apiResources []metav1.APIResource
 	var errors []error
 	ws := a.newWebService()
@@ -112,6 +114,7 @@ func (a *APIInstaller) Install() ([]metav1.APIResource, *restful.WebService, []e
 			apiResources = append(apiResources, *apiResource)
 		}
 	}
+	klog.V(8).Infof("66666666666666666666666666666666---------end-----------66666666666666666666666666666")
 	return apiResources, ws, errors
 }
 
@@ -134,6 +137,7 @@ func (a *APIInstaller) newWebService() *restful.WebService {
 
 // calculate the storage gvk, the gvk objects are converted to before persisted to the etcd.
 func getStorageVersionKind(storageVersioner runtime.GroupVersioner, storage rest.Storage, typer runtime.ObjectTyper) (schema.GroupVersionKind, error) {
+	klog.V(8).Infof("44444444444444444444444444444-----------start----------------444444444444444444444444444444444")
 	object := storage.New()
 	fqKinds, _, err := typer.ObjectKinds(object)
 	if err != nil {
@@ -143,6 +147,7 @@ func getStorageVersionKind(storageVersioner runtime.GroupVersioner, storage rest
 	if !ok {
 		return schema.GroupVersionKind{}, fmt.Errorf("cannot find the storage version kind for %v", reflect.TypeOf(object))
 	}
+	klog.V(8).Infof("44444444444444444444444444444-----------end----------------444444444444444444444444444444444")
 	return gvk, nil
 }
 
@@ -179,6 +184,7 @@ func GetResourceKind(groupVersion schema.GroupVersion, storage rest.Storage, typ
 }
 
 func (a *APIInstaller) registerResourceHandlers(path string, storage rest.Storage, ws *restful.WebService) (*metav1.APIResource, error) {
+	klog.V(8).Infof("55555555555555555555555-----------start-------------------5555555555555555555555555")
 	admit := a.group.Admit
 
 	optionsExternalVersion := a.group.GroupVersion
@@ -921,7 +927,7 @@ func (a *APIInstaller) registerResourceHandlers(path string, storage rest.Storag
 
 	// Record the existence of the GVR and the corresponding GVK
 	a.group.EquivalentResourceRegistry.RegisterKindFor(reqScope.Resource, reqScope.Subresource, fqKindToRegister)
-
+	klog.V(8).Infof("55555555555555555555555555555----------------end---------------555555555555555555555555555555555555")
 	return &apiResource, nil
 }
 

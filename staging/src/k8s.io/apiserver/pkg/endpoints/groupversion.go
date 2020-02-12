@@ -17,6 +17,7 @@ limitations under the License.
 package endpoints
 
 import (
+	"k8s.io/klog"
 	"path"
 	"time"
 
@@ -95,6 +96,7 @@ type APIGroupVersion struct {
 // It is expected that the provided path root prefix will serve all operations. Root MUST NOT end
 // in a slash.
 func (g *APIGroupVersion) InstallREST(container *restful.Container) error {
+	klog.V(8).Infof("7777777777777777777777777777777777777--------------start-----------------777777777777777777777777777777777777777777")
 	prefix := path.Join(g.Root, g.GroupVersion.Group, g.GroupVersion.Version)
 	installer := &APIInstaller{
 		group:             g,
@@ -106,6 +108,7 @@ func (g *APIGroupVersion) InstallREST(container *restful.Container) error {
 	versionDiscoveryHandler := discovery.NewAPIVersionHandler(g.Serializer, g.GroupVersion, staticLister{apiResources})
 	versionDiscoveryHandler.AddToWebService(ws)
 	container.Add(ws)
+	klog.V(8).Infof("7777777777777777777777777777777777777--------------start-----------------777777777777777777777777777777777777777777")
 	return utilerrors.NewAggregate(registrationErrors)
 }
 

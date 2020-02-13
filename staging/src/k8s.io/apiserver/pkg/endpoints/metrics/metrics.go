@@ -18,6 +18,7 @@ package metrics
 
 import (
 	"bufio"
+	"k8s.io/klog"
 	"net"
 	"net/http"
 	"net/url"
@@ -291,7 +292,9 @@ func RecordLongRunning(req *http.Request, requestInfo *request.RequestInfo, comp
 	} else {
 		g = longRunningRequestGauge.WithLabelValues(reportedVerb, "", "", "", requestInfo.Path, scope, component)
 	}
+	klog.V(8).Infof("llllllllllllllllllllllllllllll--------start----------llllllllllllllllllllllllll")
 	g.Inc()
+	klog.V(8).Infof("llllllllllllllllllllllllllllll--------end----------llllllllllllllllllllllllll")
 	defer g.Dec()
 	fn()
 }

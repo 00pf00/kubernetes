@@ -77,10 +77,12 @@ func (s *LocationStreamer) InputStream(ctx context.Context, apiVersion, acceptHe
 	// will be release properly.
 	req = req.WithContext(ctx)
 
+	klog.V(8).Infof("rrrrrrrrrrrrrrrrrrrrrrrrrrrrr----start-------rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, false, "", err
 	}
+	klog.V(8).Infof("rrrrrrrrrrrrrrrrrrrrrrrrrrrrr----end-------rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
 
 	if s.ResponseChecker != nil {
 		if err = s.ResponseChecker.Check(resp); err != nil {

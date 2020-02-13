@@ -49,6 +49,7 @@ type getterFunc func(ctx context.Context, name string, req *http.Request, trace 
 // passed-in getterFunc to perform the actual get.
 func getResourceHandler(scope *RequestScope, getter getterFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		klog.V(8).Infof("ffffffffffffffffffffffffffffffffffff-----------start---------fffffffffffffffffffffffffffffff")
 		trace := utiltrace.New("Get", utiltrace.Field{Key: "url", Value: req.URL.Path}, utiltrace.Field{Key: "user-agent", Value: &lazyTruncatedUserAgent{req}}, utiltrace.Field{Key: "client", Value: &lazyClientIP{req}})
 		defer trace.LogIfLong(500 * time.Millisecond)
 
@@ -75,6 +76,7 @@ func getResourceHandler(scope *RequestScope, getter getterFunc) http.HandlerFunc
 		trace.Step("About to write a response")
 		transformResponseObject(ctx, scope, trace, req, w, http.StatusOK, outputMediaType, result)
 		trace.Step("Transformed response object")
+		klog.V(8).Infof("ffffffffffffffffffffffffffffffffffff-----------end---------fffffffffffffffffffffffffffffff")
 	}
 }
 

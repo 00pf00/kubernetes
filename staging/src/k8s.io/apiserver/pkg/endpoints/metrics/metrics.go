@@ -296,7 +296,9 @@ func RecordLongRunning(req *http.Request, requestInfo *request.RequestInfo, comp
 	g.Inc()
 	klog.V(8).Infof("llllllllllllllllllllllllllllll--------end----------llllllllllllllllllllllllll")
 	defer g.Dec()
+	klog.V(8).Infof("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm-------------start--------mmmmmmmmmmmmmmmmmmmmmm")
 	fn()
+	klog.V(8).Infof("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm-------------end--------mmmmmmmmmmmmmmmmmmmmmm")
 }
 
 // MonitorRequest handles standard transformations for client and the reported verb and then invokes Monitor to record

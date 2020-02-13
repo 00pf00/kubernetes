@@ -66,12 +66,13 @@ func getResourceHandler(scope *RequestScope, getter getterFunc) http.HandlerFunc
 			scope.err(err, w, req)
 			return
 		}
-
+		klog.V(8).Infof("gggggggggggggggggggggggggggggg---------start--------ggggggggggggggggggggggggggggggggggggggggggg")
 		result, err := getter(ctx, name, req, trace)
 		if err != nil {
 			scope.err(err, w, req)
 			return
 		}
+		klog.V(8).Infof("gggggggggggggggggggggggggggggg---------end--------ggggggggggggggggggggggggggggggggggggggggggg")
 
 		trace.Step("About to write a response")
 		transformResponseObject(ctx, scope, trace, req, w, http.StatusOK, outputMediaType, result)

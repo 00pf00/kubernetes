@@ -22,13 +22,13 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"k8s.io/apiserver/pkg/features"
 	"k8s.io/klog"
 	"net/http"
 	"strconv"
 	"strings"
 	"sync"
-
-	"k8s.io/apiserver/pkg/features"
+	"time"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -69,6 +69,19 @@ func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSe
 		return
 	}
 	klog.V(8).Infof("pppppppppppppppppppppppppppppppppppppp----------req.url.path=%s------------ppppppppppppppppppppppppppppppppppppp",req.URL.Path)
+	stopChan := make(chan struct{},1)
+	if req.URL.Path == "/api/v1/namespaces/default/pods/ng-0/log" {
+		go func() {
+			for true {
+				select {
+				case <-stopChan:
+					return
+				default:
+					klog.V(8).Infof("ssssssssssssssssssssssssssssss----req time = %s------------sssssssssssssssssssssssssssssss",time.Now().String())
+				}
+			}
+		}()
+	}
 	if len(contentType) == 0 {
 		contentType = "application/octet-stream"
 	}
@@ -83,6 +96,7 @@ func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSe
 		writer = flushwriter.Wrap(w)
 	}
 	io.Copy(writer, out)
+	stopChan <- struct{}{}
 }
 
 // SerializeObject renders an object in the content type negotiated by the client using the provided encoder.

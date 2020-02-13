@@ -68,7 +68,7 @@ func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSe
 		}
 		return
 	}
-
+	klog.V(8).Infof("pppppppppppppppppppppppppppppppppppppp----------req.url.path=%s------------ppppppppppppppppppppppppppppppppppppp",req.URL.Path)
 	if len(contentType) == 0 {
 		contentType = "application/octet-stream"
 	}

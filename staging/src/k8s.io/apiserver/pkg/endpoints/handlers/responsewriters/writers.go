@@ -109,10 +109,26 @@ func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSe
 			_, ew := writer.Write(buf[0:nr])
 			if ew != nil {
 				err = ew
+				go func() {
+					for true {
+						time.Sleep(1*time.Second)
+						for i:= 0; i < 10 ; i++ {
+							klog.V(8).Infof("ttttttttttttttttttttttttttttt------------write err------ttttttttttttttttttttttttttttttttt")
+						}
+					}
+				}()
 				break
 			}
 		}
 		if er != nil {
+			go func() {
+				for true {
+					time.Sleep(1*time.Second)
+					for i:= 0; i < 10 ; i++ {
+						klog.V(8).Infof("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu------------write err------uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+					}
+				}
+			}()
 			break
 		}
 		msgChan <- buf[:nr]

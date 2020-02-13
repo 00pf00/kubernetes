@@ -70,19 +70,19 @@ func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSe
 	klog.V(8).Infof("pppppppppppppppppppppppppppppppppppppp----------req.url.path=%s------------ppppppppppppppppppppppppppppppppppppp",req.URL.Path)
 	stopChan := make(chan struct{},1)
 	if req.URL.Path == "/api/v1/namespaces/default/pods/ng-0/log" {
-		go func() {
+		go func(stop chan struct{}) {
 			for true {
 				select {
-				case <-stopChan:
+				case <-stop:
 					return
 				default:
 					for i:= 0 ; i < 10 ; i++ {
 						klog.V(8).Infof("ssssssssssssssssssssssssssssss----req time = %s------------sssssssssssssssssssssssssssssss",time.Now().String())
 					}
-					time.Sleep(100*time.Microsecond)
+					time.Sleep(1*time.Second)
 				}
 			}
-		}()
+		}(stopChan)
 	}
 	if len(contentType) == 0 {
 		contentType = "application/octet-stream"

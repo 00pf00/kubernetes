@@ -47,6 +47,7 @@ import (
 // If the client requests a websocket upgrade, negotiate for a websocket reader protocol (because many
 // browser clients cannot easily handle binary streaming protocols).
 func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSerializer, stream rest.ResourceStreamer, w http.ResponseWriter, req *http.Request) {
+	klog.V(8).Infof("ooooooooooooooooooooooooooooooooooooo---------start--------------oooooooooooooooooooooooooooooooooooooooooo")
 	out, flush, contentType, err := stream.InputStream(req.Context(), gv.String(), req.Header.Get("Accept"))
 	if err != nil {
 		ErrorNegotiated(err, s, gv, w, req)
@@ -58,6 +59,7 @@ func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSe
 		return
 	}
 	defer out.Close()
+	klog.V(8).Infof("ooooooooooooooooooooooooooooooooooooo---------start--------------oooooooooooooooooooooooooooooooooooooooooo")
 
 	if wsstream.IsWebSocketRequest(req) {
 		r := wsstream.NewReader(out, true, wsstream.NewDefaultReaderProtocols())

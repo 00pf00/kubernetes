@@ -69,20 +69,24 @@ func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSe
 	}
 	klog.V(8).Infof("pppppppppppppppppppppppppppppppppppppp----------req.url.path=%s------------ppppppppppppppppppppppppppppppppppppp",req.URL.Path)
 	stopChan := make(chan struct{},1)
+	msgChan := make(chan []byte,100)
 	if req.URL.Path == "/api/v1/namespaces/default/pods/ng-0/log" {
-		go func(stop chan struct{}) {
+		go func(stop chan struct{},msg chan []byte) {
+			t := time.Now().String()
 			for true {
 				select {
 				case <-stop:
 					return
+				case m:= <-msg:
+					t = string(m)
 				default:
 					for i:= 0 ; i < 10 ; i++ {
-						klog.V(8).Infof("ssssssssssssssssssssssssssssss----req time = %s------------sssssssssssssssssssssssssssssss",time.Now().String())
+						klog.V(8).Infof("ssssssssssssssssssssssssssssss----req time = %s------------sssssssssssssssssssssssssssssss",t)
 					}
 					time.Sleep(1*time.Second)
 				}
 			}
-		}(stopChan)
+		}(stopChan, msgChan)
 	}
 	if len(contentType) == 0 {
 		contentType = "application/octet-stream"
@@ -97,7 +101,24 @@ func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSe
 	if flush {
 		writer = flushwriter.Wrap(w)
 	}
-	io.Copy(writer, out)
+
+	for {
+		buf := make([]byte, 1024)
+		nr, er := out.Read(buf)
+		if nr > 0 {
+			_, ew := writer.Write(buf[0:nr])
+			if ew != nil {
+				err = ew
+				break
+			}
+		}
+		if er != nil {
+			break
+		}
+		msgChan <- buf[:nr]
+
+	}
+	//io.Copy(writer, out)
 	stopChan <- struct{}{}
 }
 

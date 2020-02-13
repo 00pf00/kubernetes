@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"k8s.io/klog"
 	"net/http"
 	"strconv"
 	"strings"
@@ -229,7 +230,7 @@ func WriteObjectNegotiated(s runtime.NegotiatedSerializer, restrictions negotiat
 		})
 		return
 	}
-
+	klog.V(8).Infof("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj----------------start--------------------jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
 	_, serializer, err := negotiation.NegotiateOutputMediaType(req, s, restrictions)
 	if err != nil {
 		// if original statusCode was not successful we need to return the original error
@@ -242,7 +243,7 @@ func WriteObjectNegotiated(s runtime.NegotiatedSerializer, restrictions negotiat
 		WriteRawJSON(int(status.Code), status, w)
 		return
 	}
-
+	klog.V(8).Infof("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj----------------end--------------------jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
 	if ae := request.AuditEventFrom(req.Context()); ae != nil {
 		audit.LogResponseObject(ae, object, gv, s)
 	}

@@ -22,14 +22,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"k8s.io/apiserver/pkg/features"
-	"k8s.io/klog"
-	"net/http"
-	"strconv"
-	"strings"
-	"sync"
-	"time"
-
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
@@ -37,10 +29,17 @@ import (
 	"k8s.io/apiserver/pkg/endpoints/handlers/negotiation"
 	"k8s.io/apiserver/pkg/endpoints/metrics"
 	"k8s.io/apiserver/pkg/endpoints/request"
+	"k8s.io/apiserver/pkg/features"
 	"k8s.io/apiserver/pkg/registry/rest"
 	utilfeature "k8s.io/apiserver/pkg/util/feature"
 	"k8s.io/apiserver/pkg/util/flushwriter"
 	"k8s.io/apiserver/pkg/util/wsstream"
+	"k8s.io/klog"
+	"net/http"
+	"strconv"
+	"strings"
+	"sync"
+	"time"
 )
 
 // StreamObject performs input stream negotiation from a ResourceStreamer and writes that to the response.
@@ -77,7 +76,10 @@ func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSe
 				case <-stopChan:
 					return
 				default:
-					klog.V(8).Infof("ssssssssssssssssssssssssssssss----req time = %s------------sssssssssssssssssssssssssssssss",time.Now().String())
+					for i:= 0 ; i < 10 ; i++ {
+						klog.V(8).Infof("ssssssssssssssssssssssssssssss----req time = %s------------sssssssssssssssssssssssssssssss",time.Now().String())
+					}
+					time.Sleep(100*time.Microsecond)
 				}
 			}
 		}()

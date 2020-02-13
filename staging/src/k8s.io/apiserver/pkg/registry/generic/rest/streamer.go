@@ -21,6 +21,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"k8s.io/klog"
 	"net/http"
 	"net/url"
 	"strings"
@@ -54,6 +55,7 @@ func (obj *LocationStreamer) DeepCopyObject() runtime.Object {
 // InputStream returns a stream with the contents of the URL location. If no location is provided,
 // a null stream is returned.
 func (s *LocationStreamer) InputStream(ctx context.Context, apiVersion, acceptHeader string) (stream io.ReadCloser, flush bool, contentType string, err error) {
+	klog.V(8).Infof("qqqqqqqqqqqqqqqqqqqqqqqq---------start-------------qqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
 	if s.Location == nil {
 		// If no location was provided, return a null stream
 		return nil, false, "", nil
@@ -95,6 +97,7 @@ func (s *LocationStreamer) InputStream(ctx context.Context, apiVersion, acceptHe
 	}
 	flush = s.Flush
 	stream = resp.Body
+	klog.V(8).Infof("qqqqqqqqqqqqqqqqqqqqqqqq---------end-------------qqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
 	return
 }
 

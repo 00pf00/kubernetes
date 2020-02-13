@@ -59,7 +59,7 @@ func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSe
 		return
 	}
 	defer out.Close()
-	klog.V(8).Infof("ooooooooooooooooooooooooooooooooooooo---------start--------------oooooooooooooooooooooooooooooooooooooooooo")
+	klog.V(8).Infof("ooooooooooooooooooooooooooooooooooooo---------end--------------oooooooooooooooooooooooooooooooooooooooooo")
 
 	if wsstream.IsWebSocketRequest(req) {
 		r := wsstream.NewReader(out, true, wsstream.NewDefaultReaderProtocols())

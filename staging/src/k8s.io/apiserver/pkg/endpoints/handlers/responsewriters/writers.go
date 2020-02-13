@@ -224,10 +224,12 @@ var nopCloser = ioutil.NopCloser(nil)
 func WriteObjectNegotiated(s runtime.NegotiatedSerializer, restrictions negotiation.EndpointRestrictions, gv schema.GroupVersion, w http.ResponseWriter, req *http.Request, statusCode int, object runtime.Object) {
 	stream, ok := object.(rest.ResourceStreamer)
 	if ok {
+		klog.V(8).Infof("kkkkkkkkkkkkkkkkkkkkkkkkkkkkk---------start-------kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 		requestInfo, _ := request.RequestInfoFrom(req.Context())
 		metrics.RecordLongRunning(req, requestInfo, metrics.APIServerComponent, func() {
 			StreamObject(statusCode, gv, s, stream, w, req)
 		})
+		klog.V(8).Infof("kkkkkkkkkkkkkkkkkkkkkkkkkkkkk---------end-------kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 		return
 	}
 	klog.V(8).Infof("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj----------------start--------------------jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")

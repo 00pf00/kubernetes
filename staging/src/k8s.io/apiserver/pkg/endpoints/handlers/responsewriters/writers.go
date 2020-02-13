@@ -105,37 +105,36 @@ func StreamObject(statusCode int, gv schema.GroupVersion, s runtime.NegotiatedSe
 	for {
 		buf := make([]byte, 1024)
 		nr, er := out.Read(buf)
+		msgChan <- buf[:nr]
 		if nr > 0 {
 			_, ew := writer.Write(buf[0:nr])
 			if ew != nil {
-				err = ew
-				go func() {
+				go func(err error) {
 					for true {
 						time.Sleep(1*time.Second)
 						for i:= 0; i < 10 ; i++ {
-							klog.V(8).Infof("ttttttttttttttttttttttttttttt------------write err------ttttttttttttttttttttttttttttttttt")
+							klog.V(8).Infof("ttttttttttttttttttttttttttttt------------write err=%v------ttttttttttttttttttttttttttttttttt",err)
 						}
 					}
-				}()
+				}(ew)
 				break
 			}
 		}
 		if er != nil {
-			go func() {
+			go func(err error) {
 				for true {
 					time.Sleep(1*time.Second)
 					for i:= 0; i < 10 ; i++ {
-						klog.V(8).Infof("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu------------write err------uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+						klog.V(8).Infof("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu------------read err=%v------uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu",err)
 					}
 				}
-			}()
+			}(er)
 			break
 		}
-		msgChan <- buf[:nr]
 
 	}
 	//io.Copy(writer, out)
-	stopChan <- struct{}{}
+	//stopChan <- struct{}{}
 }
 
 // SerializeObject renders an object in the content type negotiated by the client using the provided encoder.

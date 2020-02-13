@@ -19,6 +19,7 @@ package handlers
 import (
 	"context"
 	"fmt"
+	"k8s.io/klog"
 	"net/http"
 
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -128,13 +129,17 @@ func transformResponseObject(ctx context.Context, scope *RequestScope, trace *ut
 		scope.err(err, w, req)
 		return
 	}
+	klog.V(8).Infof("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh---------start--------hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
 	obj, err := transformObject(ctx, result, options, mediaType, scope, req)
 	if err != nil {
 		scope.err(err, w, req)
 		return
 	}
+	klog.V(8).Infof("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh---------end--------hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
 	kind, serializer, _ := targetEncodingForTransform(scope, mediaType, req)
+	klog.V(8).Infof("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii----------start----------iiiiiiiiiiiiiiiiiiiiiiiiiiiii")
 	responsewriters.WriteObjectNegotiated(serializer, scope, kind.GroupVersion(), w, req, statusCode, obj)
+	klog.V(8).Infof("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii----------end----------iiiiiiiiiiiiiiiiiiiiiiiiiiiii")
 }
 
 // errNotAcceptable indicates Accept negotiation has failed

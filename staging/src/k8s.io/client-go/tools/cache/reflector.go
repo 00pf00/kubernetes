@@ -335,7 +335,7 @@ loop:
 				continue
 			}
 			newResourceVersion := meta.GetResourceVersion()
-			fmt.Printf("<<<<<<------event = %v ----->>>>>>>>", event)
+			klog.V(4).Infof("<<<<<<------event = %v ----->>>>>>>>", event)
 			switch event.Type {
 			case watch.Added:
 				err := r.store.Add(event.Object)

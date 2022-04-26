@@ -206,7 +206,7 @@ func (r *Reflector) ListAndWatch(stopCh <-chan struct{}) error {
 		}
 		initTrace.Step("Objects extracted")
 		if len(items) > 0 {
-			klog.V(4).Infof("<<<<<<<---------group = %v kind = %v version = %v--------------->>>>>>>>>>>>>", items[0].GetObjectKind().GroupVersionKind().Group, items[0].GetObjectKind().GroupVersionKind().Kind, items[0].GetObjectKind().GroupVersionKind().Version)
+			klog.V(4).Infof("<<<<<<<---------item = %v--------------->>>>>>>>>>>>>", items[0])
 		}
 		if err := r.syncWith(items, resourceVersion); err != nil {
 			return fmt.Errorf("%s: Unable to sync list result: %v", r.name, err)
